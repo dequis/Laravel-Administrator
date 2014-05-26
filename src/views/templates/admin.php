@@ -61,7 +61,8 @@
 			<!-- ko foreach: rows -->
 				<tr data-bind="click: function() {$root.clickItem($data[$root.primaryKey].raw); return true},
 							css: {result: true, even: $index() % 2 == 1, odd: $index() % 2 != 1,
-									selected: $data[$root.primaryKey].raw == $root.itemLoadingId()}">
+									selected: $data[$root.primaryKey].raw == $root.itemLoadingId()},
+							attr: { 'data-primarykey': $data[$root.primaryKey].raw }">
 					<!-- ko foreach: $root.columns -->
 						<td data-bind="html: $parentContext.$data[column_name].rendered, visible: visible"></td>
 					<!-- /ko -->
