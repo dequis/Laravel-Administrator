@@ -26,5 +26,6 @@
 	@foreach ($js as $url)
 		<script src="{{$url}}"></script>
 	@endforeach
+	{{ $raw_js }}
 </body>
 </html>
