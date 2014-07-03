@@ -7,7 +7,7 @@
 			<!-- ko if: globalActions().length -->
 				<!-- ko foreach: globalActions -->
 					<!-- ko if: has_permission -->
-						<input type="button" data-bind="click: function(){$root.customAction(false, action_name, messages, confirmation)}, value: title,
+						<input type="button" data-bind="click: function(){$root.customAction(false, action_name, messages, confirmation, always_direct_download)}, value: title,
 																		attr: {disabled: $root.freezeForm() || $root.freezeActions()}" />
 					<!-- /ko -->
 				<!-- /ko -->

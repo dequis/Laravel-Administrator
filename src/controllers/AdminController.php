@@ -204,6 +204,14 @@ class AdminController extends Controller
 		$action = $actionFactory->getByName($actionName, true);
 		$result = $action->perform($prepared['query']);
 
+		if ($action->getOption('always_direct_download')) {
+			// if this is a direct download,
+			// pass the result of the action directly as a response
+			// TODO: this code is asking me to copypaste this to items and settings
+			// but i won't do it.
+			return $result;
+		}
+
 		//if the result is a string, return that as an error.
 		if (is_string($result))
 		{

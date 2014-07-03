@@ -529,8 +529,9 @@
 			 * @param string	action
 			 * @param object	messages
 			 * @param string	confirmation
+			 * @param bool		always_direct_download
 			 */
-			customAction: function(isItem, action, messages, confirmation)
+			customAction: function(isItem, action, messages, confirmation, always_direct_download)
 			{
 				var self = this,
 					data = {_token: csrf, action_name: action},
@@ -557,6 +558,10 @@
 					data.filters = self.getFilters();
 					data.page = self.pagination.page();
 					self.globalStatusMessage(messages.active).globalStatusMessageType('');
+				}
+
+				if (always_direct_download) {
+					return self.downloadFile(url + "_download?" + $.param(data));
 				}
 
 				self.freezeForm(true);

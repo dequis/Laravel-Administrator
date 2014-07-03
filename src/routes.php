@@ -79,7 +79,7 @@ Route::group(array('prefix' => Config::get('administrator::administrator.uri'), 
 		Route::get('{model}/{id}', array(
 			'as' => 'admin_get_item',
 			'uses' => 'Frozennode\Administrator\AdminController@item'
-		));
+		))->where('id', '[0-9]+');
 
 		//New Item
 		Route::get('{model}/new', array(
@@ -109,6 +109,12 @@ Route::group(array('prefix' => Config::get('administrator::administrator.uri'), 
 		Route::post('{model}/rows_per_page', array(
 			'as' => 'admin_rows_per_page',
 			'uses' => 'Frozennode\Administrator\AdminController@rowsPerPage'
+		));
+
+		//Custom model action download
+		Route::get('{model}/custom_action_download', array(
+			'as' => 'admin_custom_model_action_download',
+			'uses' => 'Frozennode\Administrator\AdminController@customModelAction'
 		));
 
 		//CSRF protection in forms
