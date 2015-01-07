@@ -30,8 +30,13 @@
 			<!-- /ko -->
 
 			<!-- ko if: type === 'wysiwyg' -->
-				<textarea class="wysiwyg" data-bind="attr: {disabled: $root.freezeForm, id: field_id},
-							wysiwyg: {value: $root[field_name], id: field_id}"></textarea>
+				<!-- ko if: editable -->
+					<textarea class="wysiwyg" data-bind="attr: {disabled: $root.freezeForm, id: field_id},
+								wysiwyg: {value: $root[field_name], id: field_id}"></textarea>
+				<!-- /ko -->
+				<!-- ko ifnot: editable -->
+					<div class="uneditable" data-bind="html: $root[field_name]"></div>
+				<!-- /ko -->
 			<!-- /ko -->
 
 			<!-- ko if: type === 'markdown' -->
