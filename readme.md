@@ -4,7 +4,7 @@ Administrator is an administrative interface builder for [Laravel](http://larave
 
 - **Author:** Jan Hartigan
 - **Website:** [http://frozennode.com](http://administrator.frozennode.com/)
-- **Version:** 4.12.0
+- **Version:** 4.15.0
 
 [![Build Status](https://travis-ci.org/FrozenNode/Laravel-Administrator.png?branch=master)](https://travis-ci.org/FrozenNode/Laravel-Administrator)
 
@@ -51,30 +51,27 @@ Administrator was written by Jan Hartigan of Frozen Node for the Laravel framewo
 Administrator is released under the MIT License. See the LICENSE file for details.
 
 
-## Changelog
+## Recent Changelog
 
-### 4.12.0
-- Added CKEditor to composer to keep updated
-- Added Scrollable Data Table ranther than dropping the columns
-- Added the use of checkboxes for boolean filters
-- Added the ability to create select2 translation files
-- Added Arabic Translation files
-- Added Bulgarian Translation files
-- Added Finnish Translation files
-- Added Turkish Translation files
-- Added Danish timepicker translation file
-- Bugfix: Fixed the routing order for File routes
-- BugFix: Fixed the German Translation file
-- Bugfix: Freeze actions while image uploading is in progress added to keep people from clicking off the page while image is uploading
-- Bugfix: Call resizePage() after getting ajax response to fix with the page sizing and not being able to see the full datatable
-- Bugfix: Replace isSoftDeleting with issset(...->runSoftDelete) for Laravel 4.2 support
+### 4.15.0
+- New uneditable states for color, password, enum, and wysiwyg fields for when the editable option resolves to false
+- New translations (sk)
+- Bugfix: Editable fields are now also verified on the back end
+- Bugfix: Setting a string image length would fail uploads
+- Bugfix: Basic validation for relationship fields wasn't working
+- Bugfix: "Characters left" text was sitting unnecessarily outside the "editable" conditional
+- Bugfix: Some missing image-related translations
+- Bugfix: Editable option wasn't working for some fields
 
-### 4.11.2
-- Bugfix: Strange legacy issue that was never caught with passing a no-op to array_get
+### 4.14.2
+- Bugfix: Query clauses in the newQuery method for models was throwing errors if bindings were involved
 
-### 4.11.1
-- Bugfix: There was a routing issue with the new non-numeric model ids
+### 4.14.1
+- Bugfix: when validating all rules against all attributes for existing models, "exists" and "unique" rules would cause problems
 
-### 4.11.0
-- Model ids no longer have to be numeric
-- New translations (vi)
+### 4.14.0
+- New translations (hr, nb)
+- Bugfix: The Spanish translation had an issue with noun genders
+- Bugfix: Visible option wasn't previously working with filters
+- Bugfix: The front-end form should now resize to its correct height at all times
+- Bugfix: If relationships defined an alternate primary key on the foreign table, Administrator would always just grab the model's primary key name

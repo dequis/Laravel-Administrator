@@ -66,6 +66,12 @@
 			 * object
 			 */
 			listOptions: {},
+
+			/**
+			 * The options for booleans
+			 * array
+			 */
+			boolOptions: [{id: 'true', text: 'true'}, {id: 'false', text: 'false'}]
 		},
 
 		/*
@@ -1381,6 +1387,9 @@
 			//resizing the window
 			$(window).resize(self.resizePage);
 
+			//mousedowning or keypressing anywhere should resize the page as well
+			$('body').on('mouseup keypress', self.resizePage);
+
 			//set up the history event callback
 			History.Adapter.bind(window,'statechange',function() {
 				var state = History.getState();
@@ -1488,21 +1497,24 @@
 		 */
 		resizePage: function()
 		{
-			var winHeight = $(window).height(),
-				itemEditHeight = $('form.edit_form').height() + 50,
-				usedHeight = winHeight > itemEditHeight ? winHeight - 45 : itemEditHeight,
-				size = window.getComputedStyle(document.body, ':after').getPropertyValue('content');
+			setTimeout(function()
+			{
+				var winHeight = $(window).height(),
+					itemEditHeight = $('div.item_edit').outerHeight() + 50,
+					usedHeight = winHeight > itemEditHeight ? winHeight - 45 : itemEditHeight,
+					size = window.getComputedStyle(document.body, ':after').getPropertyValue('content');
 
-			//resize the page height
-			$('#admin_page').css({minHeight: usedHeight});
+				//resize the page height
+				$('#admin_page').css({minHeight: usedHeight});
 
-			//resize or scroll the data table
-			if (window.admin) {
-				if (! window.admin.dataTableScrollable)
-					window.admin.resizeDataTable();
-				else
-				window.admin.scrollDataTable();
-			}
+				//resize or scroll the data table
+				if (window.admin) {
+					if (! window.admin.dataTableScrollable)
+						window.admin.resizeDataTable();
+					else
+					window.admin.scrollDataTable();
+				}
+			}, 50);
 		},
 
 		/**

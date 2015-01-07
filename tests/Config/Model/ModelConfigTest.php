@@ -34,7 +34,7 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		$this->validator = m::mock('Frozennode\Administrator\Validator');
-		$this->config = m::mock('Frozennode\Administrator\Config\Model\Config', array($this->validator, array()))->makePartial();
+		$this->config = m::mock('Frozennode\Administrator\Config\Model\Config', array($this->validator, $this->validator, array()))->makePartial();
 	}
 
 	/**
@@ -253,13 +253,15 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
 		$model = m::mock('stdClass')->makePartial();
 		$model->exists = false;
 		$model->shouldReceive('find')->once()
-				->shouldReceive('save')->once();
+				->shouldReceive('save')->once()
+				->shouldReceive('getAttributes')->once()->andReturn(array());
 		$input = m::mock('Illuminate\Http\Request');
 		$fields = array();
 		$actionPermissions = array('update' => true, 'create' => true);
 		$this->config->shouldReceive('getDataModel')->twice()->andReturn($model)
 						->shouldReceive('fillModel')->once()
-						->shouldReceive('prepareDataAndRules')->once()->andReturn(array('data' => array(), 'rules' => array()))
+						->shouldReceive('getModelValidationRules')->once()->andReturn(array())
+						->shouldReceive('getModelValidationMessages')->once()->andReturn(array())
 						->shouldReceive('validateData')->once()
 						->shouldReceive('saveRelationships')->once()
 						->shouldReceive('setDataModel')->once();
@@ -271,39 +273,19 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
 		$model = m::mock('stdClass')->makePartial();
 		$model->exists = false;
 		$model->shouldReceive('find')->once()
-				->shouldReceive('save')->never();
+				->shouldReceive('save')->never()
+				->shouldReceive('getAttributes')->once()->andReturn(array());
 		$input = m::mock('Illuminate\Http\Request');
 		$fields = array();
 		$actionPermissions = array('update' => true, 'create' => true);
 		$this->config->shouldReceive('getDataModel')->twice()->andReturn($model)
 						->shouldReceive('fillModel')->once()
-						->shouldReceive('prepareDataAndRules')->once()->andReturn(array('data' => array(), 'rules' => array()))
+						->shouldReceive('getModelValidationRules')->once()->andReturn(array())
+						->shouldReceive('getModelValidationMessages')->once()->andReturn(array())
 						->shouldReceive('validateData')->once()->andReturn('some error')
 						->shouldReceive('saveRelationships')->never()
 						->shouldReceive('setDataModel')->never();
 		$this->assertEquals($this->config->save($input, $fields, $actionPermissions), 'some error');
-	}
-
-	public function testPrepareDataAndRulesExistingModel()
-	{
-		$model = m::mock('stdClass')->makePartial();
-		$model->exists = true;
-		$model->shouldReceive('getDirty')->once()->andReturn(array('key' => 'something', 'secondkey' => 'somethingelse'));
-		$this->config->shouldReceive('getModelValidationRules')->once()->andReturn(array('key' => 'somerule', 'other' => 'somerule'));
-		extract($this->config->prepareDataAndRules($model));
-		$this->assertEquals($rules, array('key' => 'somerule'));
-		$this->assertEquals($data, array('key' => 'something', 'secondkey' => 'somethingelse'));
-	}
-
-	public function testPrepareDataAndRulesNewModel()
-	{
-		$model = m::mock('stdClass')->makePartial();
-		$model->exists = false;
-		$model->shouldReceive('getAttributes')->once()->andReturn(array('key' => 'something', 'secondkey' => 'somethingelse'));
-		$this->config->shouldReceive('getModelValidationRules')->once()->andReturn(array('key' => 'somerule', 'other' => 'somerule'));
-		extract($this->config->prepareDataAndRules($model));
-		$this->assertEquals($rules, array('key' => 'somerule', 'other' => 'somerule'));
-		$this->assertEquals($data, array('key' => 'something', 'secondkey' => 'somethingelse'));
 	}
 
 	public function testFillModel()
@@ -311,23 +293,32 @@ class ModelConfigTest extends \PHPUnit_Framework_TestCase {
 		$input = m::mock('Illuminate\Http\Request');
 		$input->shouldReceive('get')->times(3);
 		$field = m::mock('Frozennode\Administrator\Fields\Field');
-		$field->shouldReceive('getOption')->times(3)->andReturn(false, 'text', false)
+		$field->shouldReceive('getOption')->times(4)->andReturn(false, true, 'text', false)
 				->shouldReceive('fillModel')->once();
 		$field_external = m::mock('Frozennode\Administrator\Fields\Field');
 		$field_external->shouldReceive('getOption')->times(3)->andReturn(true, 'belongs_to_many', false);
+		$field_uneditable = m::mock('Frozennode\Administrator\Fields\Field');
+		$field_uneditable->shouldReceive('getOption')->times(4)->andReturn(false, false, 'text', false);
 		$field_setter = m::mock('Frozennode\Administrator\Fields\Field');
-		$field_setter->shouldReceive('getOption')->times(3)->andReturn(false, 'text', true)
+		$field_setter->shouldReceive('getOption')->times(4)->andReturn(false, true, 'text', true)
 					->shouldReceive('fillModel')->once();
 		$field_password = m::mock('Frozennode\Administrator\Fields\Field');
-		$field_password->shouldReceive('getOption')->times(3)->andReturn(false, 'password', false)
+		$field_password->shouldReceive('getOption')->times(4)->andReturn(false, true, 'password', false)
 					->shouldReceive('fillModel')->once();
 		$model = m::mock('stdClass')->makePartial();
 		$model->field = 'field_value';
 		$model->field_external = 'field_external_value';
+		$model->field_uneditable = 'field_uneditable_value';
 		$model->field_setter = 'field_setter_value';
 		$model->field_password = '';
-		$model->shouldReceive('__unset')->times(3);
-		$fields = array('field_external' => $field_external, 'field_setter' => $field_setter, 'field_password' => $field_password, 'field' => $field);
+		$model->shouldReceive('__unset')->times(4);
+		$fields = array(
+			'field_external' => $field_external,
+			'field_uneditable' => $field_uneditable,
+			'field_setter' => $field_setter,
+			'field_password' => $field_password,
+			'field' => $field
+		);
 		$this->config->fillModel($model, $input, $fields);
 	}
 
