@@ -200,7 +200,13 @@
 				<!-- /ko -->
 				<!-- ko if: $root[field_name]() && !$root.loadingItem() -->
 					<div class="image_container">
-						<img data-bind="attr: {src: file_url + '?path=' + location + $root[field_name]()}" onload="window.admin.resizePage()" />
+						<!-- ko if: display_raw_value && !$root.fieldIsDirty(field_name) -->
+							<img data-bind="attr: {src: $root[field_name]()}" onload="window.admin.resizePage()" />
+						<!-- /ko -->
+						<!-- ko if: !display_raw_value || $root.fieldIsDirty(field_name) -->
+							<img data-bind="attr: {src: file_url + '?path=' + location + $root[field_name]()}" onload="window.admin.resizePage()" />
+						<!-- /ko -->
+
 						<!-- ko if: editable -->
 							<input type="button" class="remove_button" data-bind="click: function() {$root[field_name](null)}" value="x" />
 						<!-- /ko -->
@@ -226,8 +232,14 @@
 				<!-- /ko -->
 				<!-- ko if: $root[field_name] -->
 					<div class="file_container">
-						<a data-bind="attr: {href: file_url + '?path=' + location + $root[field_name](), title: $root[field_name]},
+						<!-- ko if: display_raw_value && $root.fieldIsDirty(field_name) -->
+							<a data-bind="attr: {href: $root[field_name](), title: $root[field_name]}, text: $root[field_name]"></a>
+						<!-- /ko -->
+						<!-- ko if: !display_raw_value || $root.fieldIsDirty(field_name) -->
+							<a data-bind="attr: {href: file_url + '?path=' + location + $root[field_name](), title: $root[field_name]},
 							text: $root[field_name]"></a>
+						<!-- /ko -->
+
 						<!-- ko if: editable -->
 							<input type="button" class="remove_button" data-bind="click: function() {$root[field_name](null)}" value="x" />
 						<!-- /ko -->
