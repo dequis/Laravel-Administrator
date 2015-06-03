@@ -71,12 +71,19 @@ class Menu {
 			//if the item is an array, recursively run this method on it
 			else if (is_array($item))
 			{
-				$menu[$key] = $this->getMenu($item);
+				if (isset($item['permission']) && is_callable($item['permission'])) {
+					if ($item['permission']()) {
+						$menu[$item['view']] = $key;
+					}
+					/* otherwise don't show */
+				} else {
+					$menu[$key] = $this->getMenu($item);
 
-				//if the submenu is empty, unset it
-				if (empty($menu[$key]))
-				{
-					unset($menu[$key]);
+					//if the submenu is empty, unset it
+					if (empty($menu[$key]))
+					{
+						unset($menu[$key]);
+					}
 				}
 			}
 		}
