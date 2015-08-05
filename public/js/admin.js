@@ -562,7 +562,7 @@
 			customAction: function(isItem, action, messages, confirmation, always_direct_download)
 			{
 				var self = this,
-					data = {_token: csrf, action_name: action},
+					data = {_token: csrf, action_name: action, save_data: ko.mapping.toJS(self)},
 					url;
 
 				//if a confirmation string was supplied, flash it in a confirm()
