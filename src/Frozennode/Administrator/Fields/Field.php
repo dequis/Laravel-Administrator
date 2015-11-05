@@ -13,14 +13,14 @@ abstract class Field {
 	 *
 	 * @var \Frozennode\Administrator\Validator
 	 */
-	protected $validator;
+	public $validator;
 
 	/**
 	 * The config interface instance
 	 *
 	 * @var \Frozennode\Administrator\Config\ConfigInterface
 	 */
-	protected $config;
+	public $config;
 
 	/**
 	 * The config instance
@@ -59,6 +59,7 @@ abstract class Field {
 		'min_value' => '',
 		'max_value' => '',
 		'min_max' => false,
+		'filter_callback' => null,
 	);
 
 	/**
@@ -198,6 +199,14 @@ abstract class Field {
 	public function filterQuery(QueryBuilder &$query, &$selects = null)
 	{
 		$model = $this->config->getDataModel();
+
+		$cb = $this->getOption('filter_callback');
+		if ($cb && $cb($query, $this, $this->getOption('value')) === false)
+		{
+			// avoid applying other filters
+			$this->userOptions['value'] = '';
+			return;
+		}
 
 		//if this field has a min/max range, set it
 		if ($this->getOption('min_max'))
