@@ -990,6 +990,10 @@
 
 			//prepare the filters
 			this.filtersViewModel.filters = this.prepareFilters();
+			if (adminData.languages['true'] && adminData.languages['false']) {
+				this.filtersViewModel.boolOptions[0].text = adminData.languages['true'];
+				this.filtersViewModel.boolOptions[1].text = adminData.languages['false'];
+			}
 
 			//prepare the edit fields
 			this.viewModel.originalEditFields = adminData.edit_fields;

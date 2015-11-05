@@ -20,5 +20,7 @@ return array(
 	'characters_left' => ' caracteres restantes',
 	'no_results' => 'No se han encontrado resultados',
 	'select_options' => 'Seleccione Algunas Opciones',
+	'true' => 'Si',
+	'false' => 'No',
 
 );
