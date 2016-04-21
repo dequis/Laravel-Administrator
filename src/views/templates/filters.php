@@ -25,11 +25,11 @@
 			<!-- ko if: type === 'number' -->
 				<span class="symbol" data-bind="text: symbol"></span>
 
-				<input type="text" data-bind="value: min_value, attr: {id: field_id + '_min'}, number: {decimals: decimals, key: field_name,
+				<input placeholder="Min" type="text" data-bind="value: min_value, attr: {id: field_id + '_min'}, number: {decimals: decimals, key: field_name,
 																						thousandsSeparator: thousands_separator,
 																						decimalSeparator: decimal_separator}" />
 				<span>-</span>
-				<input type="text" data-bind="value: max_value, attr: {id: field_id + '_max'}, number: {decimals: decimals, key: field_name,
+				<input placeholder="Max" type="text" data-bind="value: max_value, attr: {id: field_id + '_max'}, number: {decimals: decimals, key: field_name,
 																						thousandsSeparator: thousands_separator,
 																						decimalSeparator: decimal_separator}" />
 			<!-- /ko -->
@@ -43,22 +43,22 @@
 			<!-- /ko -->
 
 			<!-- ko if: type === 'date' -->
-				<input type="text" data-bind="value: min_value, attr: {id: field_id + '_min'}, datepicker: {dateFormat: date_format}" />
+				<input placeholder="Min" type="text" data-bind="value: min_value, attr: {id: field_id + '_min'}, datepicker: {dateFormat: date_format}" />
 				<span>-</span>
-				<input type="text" data-bind="value: max_value, attr: {id: field_id + '_max'}, datepicker: {dateFormat: date_format}" />
+				<input placeholder="Max" type="text" data-bind="value: max_value, attr: {id: field_id + '_max'}, datepicker: {dateFormat: date_format}" />
 			<!-- /ko -->
 
 			<!-- ko if: type === 'time' -->
-				<input type="text" data-bind="value: min_value, attr: {id: field_id + '_min'}, timepicker: {timeFormat: time_format}" />
+				<input placeholder="Min" type="text" data-bind="value: min_value, attr: {id: field_id + '_min'}, timepicker: {timeFormat: time_format}" />
 				<span>-</span>
-				<input type="text" data-bind="value: max_value, attr: {id: field_id + '_max'}, timepicker: {timeFormat: time_format}" />
+				<input placeholder="Max" type="text" data-bind="value: max_value, attr: {id: field_id + '_max'}, timepicker: {timeFormat: time_format}" />
 			<!-- /ko -->
 
 			<!-- ko if: type === 'datetime' -->
-				<input type="text" data-bind="value: min_value, attr: {id: field_id + '_min'},
+				<input placeholder="Min" type="text" data-bind="value: min_value, attr: {id: field_id + '_min'},
 																		datetimepicker: {dateFormat: date_format, timeFormat: time_format}" />
 				<span>-</span>
-				<input type="text" data-bind="value: max_value, attr: {id: field_id + '_max'},
+				<input placeholder="Max" type="text" data-bind="value: max_value, attr: {id: field_id + '_max'},
 																		datetimepicker: {dateFormat: date_format, timeFormat: time_format}" />
 			<!-- /ko -->
 
