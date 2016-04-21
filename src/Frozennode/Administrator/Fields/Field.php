@@ -232,7 +232,7 @@ abstract class Field {
 	 */
 	public function getFilterValue($value)
 	{
-		if (empty($value) || (is_string($value) && trim($value) === ''))
+		if ((empty($value) && ($value !== '0')) || (is_string($value) && trim($value) === ''))
 		{
 			return false;
 		}
