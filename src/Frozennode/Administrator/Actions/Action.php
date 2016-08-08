@@ -48,6 +48,7 @@ class Action {
 			'success' => 'Success!',
 			'error' => 'There was an error performing this action',
 		),
+		'always_direct_download' => false,
 	);
 
 	/**

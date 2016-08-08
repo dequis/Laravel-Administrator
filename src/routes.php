@@ -111,6 +111,12 @@ Route::group(array('prefix' => Config::get('administrator::administrator.uri'), 
 			'uses' => 'Frozennode\Administrator\AdminController@customModelAction'
 		));
 
+		//Custom model action download
+		Route::get('{model}/custom_action_download', array(
+			'as' => 'admin_custom_model_action_download',
+			'uses' => 'Frozennode\Administrator\AdminController@customModelAction'
+		));
+
 		//Get Item
 		Route::get('{model}/{id}', array(
 			'as' => 'admin_get_item',
